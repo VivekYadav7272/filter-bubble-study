@@ -43,11 +43,10 @@ modes = {
 # Attributes for each participant are "format", "blocker", "browser".
 def get_participants():
     participants_filename = 'participants.csv'
-    participants = {}
+    participants = None
     try:
         reader = csv.DictReader(open('data/' + participants_filename, 'r'))
-        for line in reader:
-            participants[line['id']] = line
+        participants = {line[id] : line for line in reader}
     except IOError as e:
         print(e)
         print 'Problem reading ' + participants_file + ' file.'
@@ -57,11 +56,10 @@ def get_participants():
 # Get list of domains classified as local from external CSV file
 def get_local_domains():
     local_filename = 'local-domains.csv'
-    local_domains = []
+    local_domains = None
     try:
         with open('data/' + local_filename, 'r') as local_file:
-            for line in local_file.readlines():
-                local_domains.append(line.strip())
+            local_domains = [line.strip() for line in local_file.readlines()]
     except IOError as e:
         print(e)
         print 'Problem reading ' + local_filename + ' file.'
